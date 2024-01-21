@@ -1,30 +1,20 @@
-# React + TypeScript + Vite
+# web-frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Project structure
 
-Currently, two official plugins are available:
+### Commit messages
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This project follows [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) guideline for commit messages. See the table below for the list of commit types.
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+| Type     | Description                                                                                            |
+| -------- | ------------------------------------------------------------------------------------------------------ |
+| feat     | A new feature                                                                                          |
+| fix      | Bug fixes                                                                                              |
+| test     | Adding missing tests or correcting existing tests                                                      |
+| refactor | Changes to source code that neither add a feature nor fixes a bug                                      |
+| build    | Changes to CI or build configuration files (Docker, github actions)                                    |
+| chore    | Anything else that doesn't modify any `src` or `test` files (linters, configs, etc.)                   |
+| revert   | Reverts a previous commit                                                                              |
+| docs     | Documentation only changes                                                                             |
+| perf     | A code change that improves performance                                                                |
+| style    | Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc) |
