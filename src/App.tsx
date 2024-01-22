@@ -34,7 +34,7 @@ const router = createBrowserRouter([
         element: <TopicsPage />,
     },
     {
-        path: '/topics/:id',
+        path: '/topics/:slug',
         element: <TopicDetailPage />,
     },
     {
@@ -46,7 +46,7 @@ const router = createBrowserRouter([
         element: <ThreadsPage />,
     },
     {
-        path: '/threads/:title',
+        path: '/threads/:threadId/:slug',
         element: <ThreadDetailPage />,
     },
     {

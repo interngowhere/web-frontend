@@ -1,7 +1,7 @@
 import Logo from '@/assets/logo.svg';
 import LogoWithName from '@/assets/logo_name.svg';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Button } from '@/components/primitives/button';
+import Input from '@/components/primitives/input';
 import { useNavigate } from 'react-router-dom';
 
 export default function NavBar() {
@@ -22,7 +22,7 @@ export default function NavBar() {
                             alt="InternGoWhere Logo"
                         />
                     </div>
-                    <Input placeholder="Search" className="mx-4 w-full max-w-[474px] pl-4" />
+                    <Input placeholder="Search" className="mx-4 lg:max-w-[561px]" />
                 </div>
 
                 <div className="flex gap-4">
