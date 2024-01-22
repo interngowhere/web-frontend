@@ -1,3 +1,9 @@
+import { NavBarWrapper } from '@/components/layout/wrappers';
+
 export default function LoginPage() {
-    return <div>LoginPage</div>;
+    return (
+        <NavBarWrapper>
+            <div>Login</div>
+        </NavBarWrapper>
+    );
 }

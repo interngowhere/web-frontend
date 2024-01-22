@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 const ReactQueryDevtoolsProduction = React.lazy(() =>
     import('@tanstack/react-query-devtools').then((d) => ({
@@ -9,11 +9,11 @@ const ReactQueryDevtoolsProduction = React.lazy(() =>
 
 const queryClient = new QueryClient();
 
-function Providers(props: { children: ReactNode }) {
+function Providers(props: { children: React.ReactNode }) {
     return <>{props.children}</>;
 }
 
-function DevProviders(props: { children: ReactNode }) {
+function DevProviders(props: { children: React.ReactNode }) {
     return (
         <QueryClientProvider client={queryClient}>
             {props.children}

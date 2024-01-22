@@ -1,3 +1,9 @@
+import { LayoutWrapper } from '@/components/layout/wrappers';
+
 export default function HomePage() {
-    return <div>HomePage</div>;
+    return (
+        <LayoutWrapper>
+            <div className="flex w-full bg-gray-500">Home</div>
+        </LayoutWrapper>
+    );
 }

@@ -1,3 +1,9 @@
+import { NavBarWrapper } from '@/components/layout/wrappers';
+
 export default function RegisterPage() {
-    return <div>RegisterPage</div>;
+    return (
+        <NavBarWrapper>
+            <div>RegisterPage</div>
+        </NavBarWrapper>
+    );
 }
