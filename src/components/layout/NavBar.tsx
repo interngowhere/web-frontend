@@ -12,7 +12,7 @@ export default function NavBar() {
     const { loggedIn, setLoggedIn } = useContext(LoginContext);
 
     return (
-        <div className="fixed top-0 z-[9999] flex h-14 w-full place-content-center border-b-[1.5px] border-zinc-300 bg-white shadow">
+        <div className="fixed top-0 z-40 flex h-14 w-full place-content-center border-b-[1.5px] border-zinc-300 bg-white shadow">
             <div className="flex w-full max-w-[--max-width] place-content-between place-items-center px-4">
                 <div className="flex w-full">
                     <div
