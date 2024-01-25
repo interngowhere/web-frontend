@@ -1,23 +1,7 @@
 import fetcher from '@/lib/fetcher';
-import { ListTopicResponse, TopicItem } from '@/types/Topics';
+import { TopicResponse, TopicViewType } from '@/types/Topics';
 import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
-
-function TopicListItem(props: { topic: TopicItem }) {
-    const navigate = useNavigate();
-
-    return (
-        <div className="flex flex-col border-b p-2 last:border-0">
-            <span
-                className="cursor-pointer text-2xl font-semibold hover:underline"
-                onClick={() => navigate(`/topics/${props.topic.slug}`)}
-            >
-                {props.topic.title}
-            </span>
-            <span>{props.topic.shortDescription}</span>
-        </div>
-    );
-}
+import TopicItem from './TopicItem';
 
 function TopicList() {
     const { isPending, error, data } = useQuery({
@@ -32,8 +16,8 @@ function TopicList() {
     if (data) {
         return (
             <div className="w-full rounded-md bg-white">
-                {(data as ListTopicResponse).data.map((topic, index) => (
-                    <TopicListItem topic={topic} key={index} />
+                {(data as TopicResponse).data.map((topic, index) => (
+                    <TopicItem topic={topic} key={index} view={TopicViewType.List}/>
                 ))}
             </div>
         );

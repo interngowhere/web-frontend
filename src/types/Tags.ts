@@ -1,5 +1,6 @@
-interface ListTagResponse {
-    message: string;
+import { APIResponse } from "./Api";
+
+interface TagResponse extends APIResponse {
     data: TagItem[];
 }
 
@@ -8,4 +9,4 @@ interface TagItem {
     tagName: string;
 }
 
-export type { ListTagResponse, TagItem };
+export type { TagResponse, TagItem };

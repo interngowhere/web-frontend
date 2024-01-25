@@ -1,8 +1,9 @@
 import { LayoutWrapper } from '@/components/layout/wrappers';
+import Input from '@/components/primitives/input';
 import CommentList from '@/components/ui/CommentList';
 import ThreadItem from '@/components/ui/ThreadItem';
 import fetcher from '@/lib/fetcher';
-import { ListThreadResponse, ThreadViewType } from '@/types/Threads';
+import { ThreadResponse, ThreadViewType } from '@/types/Threads';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 
@@ -13,7 +14,13 @@ export default function ThreadDetailPage() {
         <LayoutWrapper>
             <div className="flex flex-col">
                 <ThreadItemContainer threadId={threadId} />
-                <CommentList threadId={threadId} />
+                <div className="flex w-full flex-col gap-4 pt-4 md:pl-4">
+                    <div className="flex flex-col place-content-between gap-4 xs:flex-row">
+                        <span className="text-2xl font-semibold">Comments</span>
+                        <Input placeholder="Search comments" className="w-full xs:w-48" />
+                    </div>
+                    <CommentList threadId={threadId} />
+                </div>
             </div>
         </LayoutWrapper>
     );
@@ -21,7 +28,7 @@ export default function ThreadDetailPage() {
 
 function ThreadItemContainer(props: { threadId: string | undefined }) {
     const { isPending, error, isFetching, data } = useQuery({
-        queryKey: ['threadItem'],
+        queryKey: ['thread', props.threadId],
         queryFn: () => fetcher.get(`/threads/${props.threadId}`).then((res) => res.data),
     });
 
@@ -32,11 +39,6 @@ function ThreadItemContainer(props: { threadId: string | undefined }) {
     if (isFetching) return 'Updating...';
 
     if (data) {
-        return (
-            <ThreadItem
-                thread={(data as ListThreadResponse).data[0]}
-                view={ThreadViewType.Detail}
-            />
-        );
+        return <ThreadItem thread={(data as ThreadResponse).data[0]} view={ThreadViewType.Detail} />;
     }
 }

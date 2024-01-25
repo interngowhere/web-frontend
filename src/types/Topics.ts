@@ -1,5 +1,11 @@
-interface ListTopicResponse {
-    message: string;
+import { APIResponse } from "./Api";
+
+export enum TopicViewType {
+    List,
+    Detail,
+}
+
+interface TopicResponse extends APIResponse {
     data: TopicItem[];
 }
 
@@ -13,4 +19,4 @@ interface TopicItem {
     createdAt: string;
 }
 
-export type { ListTopicResponse, TopicItem };
+export type { TopicResponse, TopicItem };
