@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ThumbsUpIcon, ReplyIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../primitives/button';
+import { Button } from '../primitives/Button';
 
 export default function CommentList(props: { threadId: string | undefined }) {
     const { isPending, error, data, isFetching } = useQuery({
@@ -39,7 +39,7 @@ function CommentItem(props: { comment: CommentItem }) {
     const createdAtDate = formatTimestamp(props.comment.createdAt)
     console.log(props.comment)
     return (
-        <div className="flex flex-col border-b p-2 last:border-0 gap-4">
+        <div className="flex flex-col border-b last:border-0 gap-4">
             <div className='flex gap-2 place-items-center'>
                 <span className='font-semibold'>{props.comment.createdByUsername}</span>
                 <span className="text-xs text-gray-600"> replied at {createdAtDate}</span>

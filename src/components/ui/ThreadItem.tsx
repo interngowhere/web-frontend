@@ -14,7 +14,7 @@ export default function ThreadItem(props: { thread: ThreadItem; view: ThreadView
     const createdAtDate = formatTimestamp(props.thread.createdAt)
 
     return (
-        <div className="flex flex-col border-b py-4 last:border-0 border-gray-300">
+        <div className={`flex flex-col border-b ${props.view == ThreadViewType.Detail ? "pb-4" : "py-4"} last:border-0 border-gray-300`}>
             <div className="flex">
                 <div className="flex flex-col place-items-center gap-2 pr-4 pt-4">
                     <ThumbsUpIcon
