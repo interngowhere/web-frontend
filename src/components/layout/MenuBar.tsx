@@ -1,7 +1,7 @@
 import { HashIcon, HomeIcon, MessageCircleQuestionIcon, PlusIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-import { Button } from '../primitives/button';
+import { Button } from '../primitives/Button';
 
 export default function MenuBar() {
     const navigate = useNavigate();

@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/primitives/Toaster';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -13,6 +14,7 @@ const root =
             <DevProviders>
                 <Providers>
                     <App />
+                    <Toaster />
                 </Providers>
             </DevProviders>
         </React.StrictMode>

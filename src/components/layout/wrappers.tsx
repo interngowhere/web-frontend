@@ -16,7 +16,7 @@ function LayoutWrapper(props: { children: React.ReactNode }) {
             <div className="flex w-full place-content-center">
                 <div className="flex w-full max-w-[--max-width]">
                     <MenuBar />
-                    <div className="h-full w-full p-4 md:ml-56">{props.children}</div>
+                    <div className="h-full w-full p-4 sm:p-8 md:ml-56">{props.children}</div>
                 </div>
             </div>
         </NavBarWrapper>

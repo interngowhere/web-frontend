@@ -4,4 +4,10 @@ interface APIResponse {
     code: number;
 }
 
-export type { APIResponse }
+interface TokenResponse extends APIResponse {
+    data: {
+        token: string;
+    }
+}
+
+export type { APIResponse, TokenResponse }

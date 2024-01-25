@@ -1,9 +1,9 @@
 import { cn } from '@/lib/utils';
 import { SearchIcon } from 'lucide-react';
 
-function Input(props: { placeholder: string; className?: string }) {
+function SearchBar(props: { placeholder: string; className?: string }) {
     return (
-        <div
+        <form
             className={cn(
                 'flex h-10 w-full place-content-center place-items-center rounded-md border',
                 props.className,
@@ -15,8 +15,8 @@ function Input(props: { placeholder: string; className?: string }) {
                 placeholder={props.placeholder}
                 className="flex w-full text-sm placeholder:text-gray-500 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
             />
-        </div>
+        </form>
     );
 }
 
-export default Input;
+export default SearchBar;
