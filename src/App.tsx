@@ -9,7 +9,12 @@ import ThreadsPage from '@/pages/threads/ThreadsPage';
 import NewTopicPage from '@/pages/topics/NewTopicPage';
 import TopicDetailPage from '@/pages/topics/TopicDetailPage';
 import TopicsPage from '@/pages/topics/TopicsPage';
+import { useContext } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import { toast } from 'sonner';
+
+import { LoginContext } from './context';
 
 const router = createBrowserRouter([
     {
@@ -39,7 +44,11 @@ const router = createBrowserRouter([
     },
     {
         path: '/topics/new',
-        element: <NewTopicPage />,
+        element: (
+            <ProtectedRoutes>
+                <NewTopicPage />
+            </ProtectedRoutes>
+        ),
     },
     {
         path: '/threads',
@@ -51,9 +60,21 @@ const router = createBrowserRouter([
     },
     {
         path: '/threads/new',
-        element: <NewThreadPage />,
+        element: (
+            <ProtectedRoutes>
+                <NewThreadPage />
+            </ProtectedRoutes>
+        ),
     },
 ]);
+
+function ProtectedRoutes(props: { children: React.ReactNode }) {
+    const { loggedIn } = useContext(LoginContext);
+    if (!loggedIn) {
+        toast.error('You need to login first');
+    }
+    return loggedIn ? <>{props.children}</> : <Navigate to="/login" />;
+}
 
 function App() {
     return <RouterProvider router={router} />;
