@@ -1,11 +1,21 @@
 import Logo from '@/assets/logo.svg';
 import LogoWithName from '@/assets/logo_name.svg';
 import { Button } from '@/components/primitives/Button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/primitives/DropdownMenu';
 import SearchBar from '@/components/primitives/SearchBar';
 import { LoginContext } from '@/context';
+import { logout } from '@/lib/auth';
+import { LogOutIcon, UserCircle2Icon } from 'lucide-react';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '@/lib/auth';
 
 export default function NavBar() {
     const navigate = useNavigate();
@@ -29,15 +39,50 @@ export default function NavBar() {
                     <SearchBar placeholder="Search" className="mx-4 lg:max-w-[561px]" />
                 </div>
                 {loggedIn ? (
-                    <Button
-                        className="w-18 border-none bg-brand-400 font-normal outline-none sm:w-24"
-                        onClick={() => {
-                            logout(setLoggedIn)
-                            navigate('/')
-                        }}
-                    >
-                        Sign Out
-                    </Button>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <UserCircle2Icon className="cursor-pointer" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-56">
+                            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuGroup>
+                                <DropdownMenuItem>
+                                    <button
+                                        className="flex w-full place-items-center gap-2 text-left"
+                                        onClick={() => {
+                                            navigate('/settings/account');
+                                        }}
+                                    >
+                                        Manage Account
+                                    </button>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <button
+                                        className="flex w-full place-items-center gap-2 text-left"
+                                        onClick={() => {
+                                            navigate('/settings/password');
+                                        }}
+                                    >
+                                        Update Password
+                                    </button>
+                                </DropdownMenuItem>
+                            </DropdownMenuGroup>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem>
+                                <button
+                                    className="flex w-full place-items-center gap-2 text-left"
+                                    onClick={() => {
+                                        logout(setLoggedIn);
+                                        navigate('/');
+                                    }}
+                                >
+                                    <LogOutIcon size={16} color="#030712" />
+                                    Sign Out
+                                </button>
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 ) : (
                     <div className="flex gap-4">
                         <Button

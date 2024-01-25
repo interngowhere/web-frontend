@@ -30,7 +30,7 @@ const formSchema = z.object({
 export default function NewTopicPage() {
     return (
         <NavBarWrapper>
-            <div className="flex min-h-[calc(100vh-3.5rem)] w-full place-content-center place-items-center bg-gray-400">
+            <div className="flex min-h-[calc(100vh-3.5rem)] w-full place-content-center place-items-center bg-gray-200">
                 <div className="m-6 flex w-full max-w-[--max-width] flex-col rounded-xl bg-white p-8 shadow md:m-12">
                     <h3 className="mb-6 text-2xl font-bold">Create a new topic</h3>
                     <NewTopicForm />
@@ -89,7 +89,7 @@ function NewTopicForm() {
                                 </span>
                             </div>
                             <FormControl>
-                                <Input placeholder="e.g. Cloud" {...field} />
+                                <Input placeholder="e.g. Cloud" {...field} className="text-sm" />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

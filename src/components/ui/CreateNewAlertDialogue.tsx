@@ -25,7 +25,7 @@ export default function CreateNewAlertDialogue() {
                 <h1 className="mb-2 text-3xl font-bold">What do you want to create?</h1>
                 <div className="flex w-full gap-4">
                     <div
-                        className={`flex w-full cursor-pointer flex-col gap-2 rounded-md border-2 border-gray-300 p-4 shadow duration-100 ease-in-out hover:border-brand-400 hover:text-brand-400 ${createOption == 'topics' && 'border-brand-400 text-brand-400'}`}
+                        className={`flex w-full cursor-pointer flex-col gap-2 rounded-md border-2 p-4 shadow duration-100 ease-in-out hover:border-brand-400 hover:text-brand-400 ${createOption == 'topics' && 'border-brand-400 text-brand-400'}`}
                         onClick={() => setCreateOption('topics')}
                     >
                         <HashIcon size={48} />
@@ -33,7 +33,7 @@ export default function CreateNewAlertDialogue() {
                         <span>A topic encompasses </span>
                     </div>
                     <div
-                        className={`flex w-full cursor-pointer flex-col gap-2 rounded-md border-2 border-gray-300 p-4 shadow duration-100 ease-in-out hover:border-brand-400 hover:text-brand-400 ${createOption == 'threads' && 'border-brand-400 text-brand-400'}`}
+                        className={`flex w-full cursor-pointer flex-col gap-2 rounded-md border-2 p-4 shadow duration-100 ease-in-out hover:border-brand-400 hover:text-brand-400 ${createOption == 'threads' && 'border-brand-400 text-brand-400'}`}
                         onClick={() => setCreateOption('threads')}
                     >
                         <MessageCircleQuestionIcon size={48} />

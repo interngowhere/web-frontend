@@ -15,6 +15,7 @@ import { Navigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 import { LoginContext } from './context';
+import SettingsPage from './pages/SettingsPage';
 
 const router = createBrowserRouter([
     {
@@ -63,6 +64,14 @@ const router = createBrowserRouter([
         element: (
             <ProtectedRoutes>
                 <NewThreadPage />
+            </ProtectedRoutes>
+        ),
+    },
+    {
+        path: '/settings/:section',
+        element: (
+            <ProtectedRoutes>
+                <SettingsPage />
             </ProtectedRoutes>
         ),
     },
