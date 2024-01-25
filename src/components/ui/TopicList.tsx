@@ -21,7 +21,7 @@ function TopicListItem(props: { topic: TopicItem }) {
 
 function TopicList() {
     const { isPending, error, data } = useQuery({
-        queryKey: ['repoData'],
+        queryKey: ['topicList'],
         queryFn: () => fetcher.get('/topics').then((res) => res.data),
     });
 
@@ -32,8 +32,8 @@ function TopicList() {
     if (data) {
         return (
             <div className="w-full rounded-md bg-white">
-                {(data as ListTopicResponse).data.map((topic) => (
-                    <TopicListItem topic={topic} />
+                {(data as ListTopicResponse).data.map((topic, index) => (
+                    <TopicListItem topic={topic} key={index} />
                 ))}
             </div>
         );

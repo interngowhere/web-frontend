@@ -1,5 +1,10 @@
 import { TagItem } from './Tags';
 
+export enum ThreadViewType {
+    List,
+    Detail,
+}
+
 interface ListThreadResponse {
     message: string;
     data: ThreadItem[];
