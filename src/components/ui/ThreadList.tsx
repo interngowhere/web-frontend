@@ -2,6 +2,8 @@ import fetcher from '@/lib/fetcher';
 import { ThreadResponse, ThreadViewType } from '@/types/Threads';
 import { useQuery } from '@tanstack/react-query';
 import ThreadItem from './ThreadItem';
+import { AxiosError } from 'axios';
+import { toast } from 'sonner';
 
 export default function ThreadList(props: { topicSlug: string | undefined }) {
     const url = props.topicSlug ? `/topics/${props.topicSlug}/threads` : '/threads';
@@ -13,7 +15,14 @@ export default function ThreadList(props: { topicSlug: string | undefined }) {
     url
     if (isPending) return 'Loading...';
 
-    if (error) return 'An error has occurred: ' + error.message;
+    if (error) {
+        if (!(error as AxiosError).response) {
+            toast.error('Unable to connect to server. Please try again later.');
+            return <div>An error occured</div>;
+        }
+        toast.error(`Something unexpected happened: ${error.message}`);
+        return 'An error has occurred: ' + error.message;
+    }
 
     if (isFetching) return 'Updating...';
 

@@ -6,6 +6,8 @@ import { ThumbsUpIcon, ReplyIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../primitives/Button';
+import { AxiosError } from 'axios';
+import { toast } from 'sonner';
 
 export default function CommentList(props: { threadId: string | undefined }) {
     const { isPending, error, data, isFetching } = useQuery({
@@ -15,7 +17,14 @@ export default function CommentList(props: { threadId: string | undefined }) {
 
     if (isPending) return 'Loading...';
 
-    if (error) return 'An error has occurred: ' + error.message;
+    if (error) {
+        if (!(error as AxiosError).response) {
+            toast.error('Unable to connect to server. Please try again later.');
+            return <div>An error occured</div>;
+        }
+        toast.error(`Something unexpected happened: ${error.message}`);
+        return 'An error has occurred: ' + error.message;
+    }
 
     if (isFetching) return 'Updating...';
 
