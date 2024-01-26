@@ -23,7 +23,7 @@ import { toast } from 'sonner';
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <HomePage />,
+        element: <Navigate to="/threads"/>,
         errorElement: <ErrorPage />,
     },
     {
