@@ -18,7 +18,7 @@ import {
 import Input from '@/components/primitives/Input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/primitives/Popover';
 import Textarea from '@/components/primitives/TextArea';
-import NewTagDialog from '@/components/ui/NewTagDialog';
+import NewTagDialog from '@/components/ui/tag/NewTagDialog';
 import TagInput from '@/components/ui/tag/TagInput';
 import fetcher from '@/lib/fetcher';
 import { cn } from '@/lib/utils';

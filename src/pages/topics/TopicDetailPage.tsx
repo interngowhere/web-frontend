@@ -1,7 +1,7 @@
 import { LayoutWrapper } from '@/components/layout/wrappers';
 import SearchBar from '@/components/primitives/SearchBar';
-import ThreadList from '@/components/ui/ThreadList';
-import TopicItem from '@/components/ui/TopicItem';
+import ThreadList from '@/components/ui/thread/ThreadList';
+import TopicItem from '@/components/ui/topic/TopicItem';
 import fetcher from '@/lib/fetcher';
 import { TopicResponse, TopicViewType } from '@/types/Topics';
 import { useQuery } from '@tanstack/react-query';

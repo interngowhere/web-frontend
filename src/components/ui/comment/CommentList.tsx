@@ -12,6 +12,7 @@ import NewCommentDialog from './NewCommentDialog';
 import DeleteCommentAlertDialog from './DeleteCommentAlertDialog';
 import { LoginContext } from '@/context';
 import Cookies from 'js-cookie';
+import UpdateCommentDialog from './UpdateCommentDialog';
 
 export default function CommentList(props: { threadId: string | undefined }) {
     const { isPending, error, data, isFetching } = useQuery({
@@ -100,7 +101,7 @@ function CommentItem(props: { comment: CommentItem }) {
                 </div>
                 {loggedIn && userid == props.comment.createdByID && 
                     <div className="absolute top-0 right-0 flex place-content-end gap-4">
-                        {/* <DeleteThreadAlertDialog /> */}
+                        <UpdateCommentDialog threadID={threadId!} commentID={props.comment.id} content={props.comment.content}/>
                         <DeleteCommentAlertDialog threadID={threadId!} commentID={props.comment.id} />
                     </div>
                 }

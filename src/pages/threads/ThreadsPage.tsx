@@ -1,6 +1,6 @@
 import { LayoutWrapper } from '@/components/layout/wrappers';
 import SearchBar from '@/components/primitives/SearchBar';
-import ThreadList from '@/components/ui/ThreadList';
+import ThreadList from '@/components/ui/thread/ThreadList';
 
 export default function ThreadsPage() {
     return (

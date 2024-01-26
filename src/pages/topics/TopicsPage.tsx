@@ -1,6 +1,6 @@
 import { LayoutWrapper } from '@/components/layout/wrappers';
 import SearchBar from '@/components/primitives/SearchBar';
-import TopicList from '@/components/ui/TopicList';
+import TopicList from '@/components/ui/topic/TopicList';
 
 export default function TopicsPage() {
     return (
