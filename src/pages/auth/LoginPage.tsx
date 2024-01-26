@@ -64,7 +64,7 @@ function LoginForm() {
                 response = response as AxiosResponse;
                 const res = response.data as TokenResponse;
 
-                login(res.data.token, setLoggedIn);
+                login(res.data, setLoggedIn);
 
                 // Redirect to home page
                 navigate(`/`);

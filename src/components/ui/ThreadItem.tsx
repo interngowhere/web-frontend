@@ -1,6 +1,6 @@
 import { ThreadItem, ThreadViewType } from '@/types/Threads';
 import { ThumbsUpIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import formatTimestamp from '@/lib/timestamp';
 import TagList from './TagList';
@@ -9,15 +9,23 @@ import fetcher from '@/lib/fetcher';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { APIResponse } from '@/types/Api';
-
+import { LoginContext } from '@/context';
+import DeleteThreadAlertDialog from './DeleteThreadAlertDialog';
+import Cookies from 'js-cookie';
 export default function ThreadItem(props: { thread: ThreadItem; view: ThreadViewType }) {
     const navigate = useNavigate();
+
     const [didUserKudo, setDidUserKudo] = useState(props.thread.userKudoed || false);
     const [kudoCount, setKudoCount] = useState(props.thread.kudoCount || 0);
+
+    // Get user authentication info
+    const { loggedIn } = useContext(LoginContext);
+    const userid = Cookies.get('userid');
 
     // Format createdAt datetime
     const createdAtDate = formatTimestamp(props.thread.createdAt)
 
+    // add kudo mutation method
     const addKudo = useMutation({
         mutationFn: (threadID: string) => {
             return fetcher.post(`/threads/${threadID}/kudo`);
@@ -36,6 +44,7 @@ export default function ThreadItem(props: { thread: ThreadItem; view: ThreadView
         }
     });
 
+    // remove kudo mutation method
     const removeKudo = useMutation({
         mutationFn: (threadID: string) => {
             return fetcher.delete(`/threads/${threadID}/kudo`);
@@ -77,6 +86,13 @@ export default function ThreadItem(props: { thread: ThreadItem; view: ThreadView
                     />
                     <span className="text-xs">{kudoCount}</span>
                 </div>
+                <div className='w-full relative'>
+                {loggedIn && userid == props.thread.createdByID && 
+                    <div className="absolute top-0 right-0 flex place-content-end gap-4">
+                        {/* <DeleteThreadAlertDialog /> */}
+                        <DeleteThreadAlertDialog threadID={props.thread.id}/>
+                    </div>
+                }
                 <div className="flex flex-col gap-1 w-full">
                     <span 
                         className='cursor-pointer text-gray-600 hover:underline hover:text-black'
@@ -113,6 +129,7 @@ export default function ThreadItem(props: { thread: ThreadItem; view: ThreadView
                             <span>Posted by <b>{props.thread.createdByUsername}</b> at {createdAtDate}</span>
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
         </div>

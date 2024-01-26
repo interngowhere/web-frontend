@@ -1,13 +1,14 @@
 import Cookies from 'js-cookie';
 import fetcher from './fetcher';
 import { toast } from 'sonner';
-
+import { TokenResponse } from '@/types/Api';
 function login(
-    token: string,
+    data: TokenResponse["data"],
     setLoggedIn: (value: React.SetStateAction<boolean>) => void
 ) {
     // Set token in cookies
-    Cookies.set('token', token);
+    Cookies.set('token', data.token);
+    Cookies.set('userid', data.userId);
 
     // Set Authorization header for future requests
     fetcher.defaults.headers.common['Authorization'] = "Bearer " + Cookies.get('token')
@@ -24,6 +25,7 @@ function logout(
 ) {
     // Remove token from cookies
     Cookies.remove('token');
+    Cookies.remove('userid');
 
     // Remove Authorization header from future requests
     fetcher.defaults.headers.common['Authorization'] = ""

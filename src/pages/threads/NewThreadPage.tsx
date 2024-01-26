@@ -24,7 +24,7 @@ import fetcher from '@/lib/fetcher';
 import { cn } from '@/lib/utils';
 import { APIResponse } from '@/types/Api';
 import { ListItem } from '@/types/List';
-import { TagItem, TagResponse } from '@/types/Tags';
+import { TagResponse } from '@/types/Tags';
 import { ThreadRequest } from '@/types/Threads';
 import { TopicResponse } from '@/types/Topics';
 import { zodResolver } from '@hookform/resolvers/zod';

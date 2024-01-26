@@ -7,6 +7,7 @@ interface APIResponse {
 interface TokenResponse extends APIResponse {
     data: {
         token: string;
+        userId: string
     }
 }
 

@@ -3,12 +3,15 @@ import { CommentResponse, CommentItem, NewCommentDialogOriginType } from '@/type
 import formatTimestamp from '@/lib/timestamp';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { ThumbsUpIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { APIResponse } from '@/types/Api';
 import NewCommentDialog from './NewCommentDialog';
+import DeleteCommentAlertDialog from './DeleteCommentAlertDialog';
+import { LoginContext } from '@/context';
+import Cookies from 'js-cookie';
 
 export default function CommentList(props: { threadId: string | undefined }) {
     const { isPending, error, data, isFetching } = useQuery({
@@ -45,7 +48,10 @@ function CommentItem(props: { comment: CommentItem }) {
     const [kudoCount, setKudoCount] = useState(props.comment.kudoCount || 0);
     
     const { threadId } = useParams();
-
+    // Get user authentication info
+    const { loggedIn } = useContext(LoginContext);
+    const userid = Cookies.get('userid');
+    
     // Format createdAt datetime
     const createdAtDate = formatTimestamp(props.comment.createdAt)
     
@@ -87,11 +93,20 @@ function CommentItem(props: { comment: CommentItem }) {
 
     return (
         <div className="flex flex-col border-b last:border-0 gap-4">
-            <div className='flex gap-2 place-items-center'>
-                <span className='font-semibold'>{props.comment.createdByUsername}</span>
-                <span className="text-xs text-gray-600"> replied at {createdAtDate}</span>
+            <div className='relative'>
+                <div className='flex gap-2 place-items-center'>
+                    <span className='font-semibold'>{props.comment.createdByUsername}</span>
+                    <span className="text-xs text-gray-600"> replied at {createdAtDate}</span>
+                </div>
+                {loggedIn && userid == props.comment.createdByID && 
+                    <div className="absolute top-0 right-0 flex place-content-end gap-4">
+                        {/* <DeleteThreadAlertDialog /> */}
+                        <DeleteCommentAlertDialog threadID={threadId!} commentID={props.comment.id} />
+                    </div>
+                }
+                
             </div>
-            <span className="">{props.comment.content}</span>
+            <span>{props.comment.content}</span>
             <div className='flex gap-4'>
                 <div className="flex flex-row place-items-center gap-2">
                     <ThumbsUpIcon
