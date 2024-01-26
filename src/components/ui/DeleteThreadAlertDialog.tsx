@@ -46,6 +46,7 @@ export default function DeleteThreadAlertDialog(props: { threadID: number }) {
                 toast.success(`Thread deleted successfully!`);
 
                 // Refresh page
+                navigate("/threads")
                 navigate(0)
             } else {
                 toast(`Something unexpected happened: ${data.data.message}`);
