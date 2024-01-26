@@ -255,6 +255,7 @@ function NewThreadForm() {
                     </div>
                     <div className="flex place-content-between">
                         <TagInput
+                            defaultTags={[]}
                             tags={tags}
                             selectedTags={selectedTags}
                             setSelectedTags={setSelectedTags}
