@@ -10,7 +10,6 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/primitives/DropdownMenu';
-import SearchBar from '@/components/primitives/SearchBar';
 import { LoginContext } from '@/context';
 import { logout } from '@/lib/auth';
 import { LogOutIcon, UserCircle2Icon } from 'lucide-react';
@@ -31,12 +30,11 @@ export default function NavBar() {
                     >
                         <img className="h-8 min-w-8" src={Logo} alt="InternGoWhere Logo" />
                         <img
-                            className="hidden h-4 min-w-[150px] md:block"
+                            className="hidden h-4 min-w-[150px] xs:block"
                             src={LogoWithName}
                             alt="InternGoWhere Logo"
                         />
                     </div>
-                    <SearchBar placeholder="Search" className="mx-4 lg:max-w-[561px]" />
                 </div>
                 {loggedIn ? (
                     <DropdownMenu>
@@ -86,7 +84,7 @@ export default function NavBar() {
                 ) : (
                     <div className="flex gap-4">
                         <Button
-                            className="hidden w-24 font-normal sm:block"
+                            className="w-24 font-normal"
                             variant="secondary"
                             onClick={() => navigate('/register')}
                         >
