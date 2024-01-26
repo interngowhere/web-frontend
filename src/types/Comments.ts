@@ -5,6 +5,17 @@ export enum ThreadViewType {
     Detail,
 }
 
+// Where user opened the dialog box
+export enum NewCommentDialogOriginType {
+    Main,
+    Comment,
+}
+
+interface CommentRequest {
+    content: string;
+    parentId: number;
+}
+
 interface CommentResponse extends APIResponse {
     data: CommentItem[];
 }
@@ -22,4 +33,4 @@ interface CommentItem {
     children: CommentItem[];
 }
 
-export type { CommentResponse, CommentItem };
+export type { CommentRequest, CommentResponse, CommentItem };

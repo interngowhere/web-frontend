@@ -1,17 +1,24 @@
 import { NavBarWrapper } from '@/components/layout/wrappers';
 import { Button } from '@/components/primitives/Button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/primitives/Form';
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from '@/components/primitives/Form';
 import Input from '@/components/primitives/Input';
 import Textarea from '@/components/primitives/TextArea';
-import fetcher from "@/lib/fetcher";
-import { APIResponse } from "@/types/Api";
+import fetcher from '@/lib/fetcher';
+import { APIResponse } from '@/types/Api';
+import { TopicRequest } from '@/types/Topics';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import { AxiosResponse, AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from 'axios';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import { toast } from "sonner";
-import { TopicRequest } from '@/types/Topics';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 const formSchema = z.object({
@@ -51,16 +58,16 @@ function NewTopicForm() {
 
     const mutation = useMutation({
         mutationFn: (newTopic: TopicRequest) => {
-            return fetcher.post("/topics", newTopic);
+            return fetcher.post('/topics', newTopic);
         },
         onError: (error: AxiosError) => {
             if (!error.response) {
                 toast.error('Unable to connect to server. Please try again later.');
                 return;
             }
-            const res = error.response.data as APIResponse
+            const res = error.response.data as APIResponse;
             if (res.code === 409) {
-                toast.error(`Topic already exists`)
+                toast.error(`Topic already exists`);
                 return;
             }
             toast.error(`Something unexpected happened: ${res.message}`);
@@ -69,9 +76,9 @@ function NewTopicForm() {
             if (data.status === 201) {
                 // Show toast
                 toast.success(`Topic created successfully!`);
-                navigate("/topics");
+                navigate('/topics');
             } else {
-                toast(`Something unexpected happened: ${data.data}`);
+                toast(`Something unexpected happened: ${data.data.message}`);
             }
         },
     });
@@ -88,8 +95,8 @@ function NewTopicForm() {
                     name="title"
                     render={({ field }) => (
                         <FormItem>
-                            <div className='flex flex-col mb-2'>
-                                <FormLabel className='text-lg'>Title</FormLabel>
+                            <div className="mb-2 flex flex-col">
+                                <FormLabel className="text-lg">Title</FormLabel>
                                 <span className="text-sm text-muted-foreground">
                                     The title of your topic
                                 </span>
@@ -106,10 +113,11 @@ function NewTopicForm() {
                     name="shortDescription"
                     render={({ field }) => (
                         <FormItem>
-                            <div className='flex flex-col mb-2'>
-                                <FormLabel className='text-lg'>Short Description</FormLabel>
+                            <div className="mb-2 flex flex-col">
+                                <FormLabel className="text-lg">Short Description</FormLabel>
                                 <span className="text-sm text-muted-foreground">
-                                    Provide a concise summary of your topic that will be displayed on the topic card
+                                    Provide a concise summary of your topic that will be displayed
+                                    on the topic card
                                 </span>
                             </div>
                             <FormControl>
@@ -127,15 +135,15 @@ function NewTopicForm() {
                     name="description"
                     render={({ field }) => (
                         <FormItem>
-                            <div className='flex flex-col mb-2'>
-                                <FormLabel className='text-lg'>Description</FormLabel>
+                            <div className="mb-2 flex flex-col">
+                                <FormLabel className="text-lg">Description</FormLabel>
                                 <span className="text-sm text-muted-foreground">
                                     Give a detailed description of your topic
                                 </span>
                             </div>
                             <FormControl>
                                 <Textarea
-                                    className='h-[calc(20vh)]'
+                                    className="h-[calc(20vh)]"
                                     placeholder="e.g. this is a place for interested"
                                     {...field}
                                 />
@@ -144,7 +152,7 @@ function NewTopicForm() {
                         </FormItem>
                     )}
                 />
-                <Button className="w-full max-w-48 ml-auto" type="submit" variant="primary">
+                <Button className="ml-auto w-full max-w-48" type="submit" variant="primary">
                     Create Topic
                 </Button>
             </form>

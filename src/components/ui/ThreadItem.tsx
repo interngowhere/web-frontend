@@ -56,7 +56,7 @@ export default function ThreadItem(props: { thread: ThreadItem; view: ThreadView
 
     return (
         <div className={`flex flex-col border-b ${props.view == ThreadViewType.Detail ? "pb-4" : "py-4"} last:border-0 border-gray-300`}>
-            <div className="flex">
+            <div className="flex w-full">
                 <div className="flex flex-col place-items-center gap-2 pr-4 pt-4">
                     <ThumbsUpIcon
                         size={24}
@@ -77,7 +77,7 @@ export default function ThreadItem(props: { thread: ThreadItem; view: ThreadView
                     />
                     <span className="text-xs">{kudoCount}</span>
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 w-full">
                     <span 
                         className='cursor-pointer text-gray-600 hover:underline hover:text-black'
                         onClick={() => navigate(`/topics/${props.thread.topicSlug}`)}>

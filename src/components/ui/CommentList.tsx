@@ -1,14 +1,14 @@
 import fetcher from '@/lib/fetcher';
-import { CommentResponse, CommentItem } from '@/types/Comments';
+import { CommentResponse, CommentItem, NewCommentDialogOriginType } from '@/types/Comments';
 import formatTimestamp from '@/lib/timestamp';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { ThumbsUpIcon, ReplyIcon } from 'lucide-react';
+import { ThumbsUpIcon } from 'lucide-react';
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Button } from '../primitives/Button';
+import { useParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { APIResponse } from '@/types/Api';
+import NewCommentDialog from './NewCommentDialog';
 
 export default function CommentList(props: { threadId: string | undefined }) {
     const { isPending, error, data, isFetching } = useQuery({
@@ -41,7 +41,6 @@ export default function CommentList(props: { threadId: string | undefined }) {
 }
 
 function CommentItem(props: { comment: CommentItem }) {
-    const navigate = useNavigate();
     const [didUserKudo, setDidUserKudo] = useState(props.comment.userKudoed || false);
     const [kudoCount, setKudoCount] = useState(props.comment.kudoCount || 0);
     
@@ -85,7 +84,7 @@ function CommentItem(props: { comment: CommentItem }) {
             setKudoCount(kudoCount + 1);
         }
     });
-    
+
     return (
         <div className="flex flex-col border-b last:border-0 gap-4">
             <div className='flex gap-2 place-items-center'>
@@ -114,14 +113,7 @@ function CommentItem(props: { comment: CommentItem }) {
                     />
                     <span className="text-xs">{kudoCount}</span>
                 </div>
-                <Button
-                    variant="ghost"
-                    className="w-40 justify-start text-gray-600"
-                    onClick={() => navigate('/topics')}
-                >
-                    <ReplyIcon className="mr-2 h-6 w-6" />
-                    Reply
-                </Button>
+                <NewCommentDialog parentID={props.comment.parentId == 0 ? props.comment.id: props.comment.parentId} threadID={threadId!} openFrom={NewCommentDialogOriginType.Comment} />
             </div>
             <div className='flex flex-col ml-8 pl-4 border-l-2 border-gray-300'>
                 {props.comment.children && props.comment.children.map((child, index) => <CommentItem comment={child} key={index}/>)}

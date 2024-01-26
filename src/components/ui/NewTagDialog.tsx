@@ -15,7 +15,7 @@ export default function NewTagDialog() {
     const [tagName, setTagName] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
     const [open, setOpen] = useState(false);
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
     const mutation = useMutation({
         mutationFn: (newTag: TagRequest) => {
             return fetcher.post('/tags', newTag);
@@ -35,13 +35,13 @@ export default function NewTagDialog() {
         onSuccess: (data: AxiosResponse, variables) => {
             setTagName('');
             if (data.status === 201) {
-                queryClient.setQueryData(['tagList', { tagName: variables.tagName }], data)
+                queryClient.setQueryData(['tagList', { tagName: variables.tagName }], data);
                 setOpen(false);
-                
+
                 // Show toast
                 toast.success(`Tag created successfully!`);
             } else {
-                toast(`Something unexpected happened: ${data.data}`);
+                toast(`Something unexpected happened: ${data.data.message}`);
             }
         },
     });
@@ -49,7 +49,7 @@ export default function NewTagDialog() {
     function onSubmit() {
         if (tagName.length > 50) {
             setError('Please choose a shorter tag name (maximum 50 characters)');
-            return
+            return;
         }
         setError(null);
         mutation.mutate({ tagName: tagName });
@@ -64,7 +64,7 @@ export default function NewTagDialog() {
                 </Button>
             </DialogTrigger>
             <DialogContent>
-                <h1 className="mb-2 text-xl font-bold">Create a new tag</h1>
+                <h1 className="text-xl font-bold">Create a new tag</h1>
                 <div className="flex flex-col gap-1">
                     <Input
                         placeholder="e.g. amazon cloud services, web development, etc."

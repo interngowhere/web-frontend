@@ -18,7 +18,7 @@ import {
 import Input from '@/components/primitives/Input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/primitives/Popover';
 import Textarea from '@/components/primitives/TextArea';
-import NewTagDialog from '@/components/ui/NewTagDialogue';
+import NewTagDialog from '@/components/ui/NewTagDialog';
 import TagInput from '@/components/ui/TagInput';
 import fetcher from '@/lib/fetcher';
 import { cn } from '@/lib/utils';
@@ -88,16 +88,15 @@ function NewThreadForm() {
                 toast.error('Unable to connect to server. Please try again later.');
                 return;
             }
-            const res = error.response.data as APIResponse
+            const res = error.response.data as APIResponse;
             if (res.code === 409) {
-                toast.error(`Thread already exists`)
+                toast.error(`Thread already exists`);
                 return;
             }
             toast.error(`Something unexpected happened: ${res.message}`);
         },
         onSuccess: (data: AxiosResponse, variables: ThreadRequest) => {
             if (data.status === 201) {
-                console.log(variables)
                 // Show toast
                 toast.success(`Thread created successfully!`);
                 navigate(`/topics/${variables.topic}`);
@@ -112,7 +111,6 @@ function NewThreadForm() {
             ...values,
             tags: selectedTags.map((tag) => tag.value as unknown as number),
         } as ThreadRequest;
-        console.log(data)
         mutation.mutate(data);
     }
 
@@ -256,7 +254,11 @@ function NewThreadForm() {
                         </span>
                     </div>
                     <div className="flex place-content-between">
-                        <TagInput tags={tags} selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
+                        <TagInput
+                            tags={tags}
+                            selectedTags={selectedTags}
+                            setSelectedTags={setSelectedTags}
+                        />
                         <NewTagDialog />
                     </div>
                 </div>

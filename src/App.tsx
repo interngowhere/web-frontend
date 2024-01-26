@@ -83,7 +83,6 @@ function ProtectedRoutes(props: { children: React.ReactNode }) {
     const { loggedIn, setLoggedIn } = useContext(LoginContext);
     const [loading, setLoading] = useState(true);
 
-    console.log(Cookies.get('token'));
     fetcher.defaults.headers.common['Authorization'] = 'Bearer ' + Cookies.get('token');
 
     useEffect(() => {

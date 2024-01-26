@@ -1,10 +1,13 @@
 import { LayoutWrapper } from '@/components/layout/wrappers';
 import SearchBar from '@/components/primitives/SearchBar';
 import CommentList from '@/components/ui/CommentList';
+import NewCommentDialog from '@/components/ui/NewCommentDialog';
 import ThreadItem from '@/components/ui/ThreadItem';
 import fetcher from '@/lib/fetcher';
+import { NewCommentDialogOriginType } from '@/types/Comments';
 import { ThreadResponse, ThreadViewType } from '@/types/Threads';
 import { useQuery } from '@tanstack/react-query';
+import { UserCircle2 } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 
 export default function ThreadDetailPage() {
@@ -18,6 +21,10 @@ export default function ThreadDetailPage() {
                     <div className="flex flex-col place-content-between gap-4 xs:flex-row">
                         <span className="text-2xl font-semibold">Comments</span>
                         <SearchBar placeholder="Search comments" className="w-full xs:w-48" />
+                    </div>
+                    <div className="flex place-items-center gap-4">
+                        <UserCircle2 size={32} className="text-gray-600" />
+                        <NewCommentDialog parentID={0} threadID={threadId!} openFrom={NewCommentDialogOriginType.Main} />
                     </div>
                     <CommentList threadId={threadId} />
                 </div>
