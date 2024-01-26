@@ -3,6 +3,7 @@ import { AutocompleteGetTagProps, useAutocomplete } from '@mui/base/useAutocompl
 import { autocompleteClasses } from '@mui/material/Autocomplete';
 import { styled } from '@mui/material/styles';
 import { CheckIcon, XIcon } from 'lucide-react';
+
 const InputWrapper = styled('div')(
     ({ theme }) => `
     width: 100%;
@@ -127,6 +128,7 @@ const Listbox = styled('ul')(
 interface TagInputProps {
     tags: ListItem[];
     selectedTags: ListItem[];
+    defaultTags: ListItem[];
     setSelectedTags: React.Dispatch<React.SetStateAction<ListItem[]>>;
 }
 
@@ -142,6 +144,7 @@ export default function TagInput(props: TagInputProps) {
         focused,
         setAnchorEl,
     } = useAutocomplete({
+        defaultValue: props.defaultTags,
         multiple: true,
         options: props.tags,
         getOptionLabel: (option: ListItem) => option.label,

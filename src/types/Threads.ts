@@ -6,6 +6,14 @@ export enum ThreadViewType {
     Detail,
 }
 
+interface ThreadUpdateInfo {
+    id: number;
+    slug: string;
+    title: string;
+    description: string;
+    tags: TagItem[];
+}
+
 interface ThreadRequest {
     topic: string;
     title: string;
@@ -32,4 +40,4 @@ interface ThreadItem {
     userKudoed: boolean;
 }
 
-export type { ThreadRequest, ThreadResponse, ThreadItem };
+export type { ThreadRequest, ThreadUpdateInfo, ThreadResponse, ThreadItem };

@@ -33,6 +33,10 @@ export default function UpdateCommentDialog(props: UpdateCommentDialogProps) {
                 return;
             }
             const res = error.response.data as APIResponse;
+            if (res.code === 404) {
+                toast.error(`Comment does not exists`);
+                return;
+            }
             toast.error(`Something unexpected happened: ${res.message}`);
         },
         onSuccess: (data: AxiosResponse) => {
@@ -54,7 +58,7 @@ export default function UpdateCommentDialog(props: UpdateCommentDialogProps) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <button className="flex w-full place-items-center gap-2 text-left">
+                <button className="flex w-full place-items-center gap-2 text-left text-sm">
                     <PencilIcon size={16} color="#030712" />
                     Edit
                 </button>

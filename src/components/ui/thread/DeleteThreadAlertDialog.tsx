@@ -57,7 +57,7 @@ export default function DeleteThreadAlertDialog(props: { threadID: number }) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
-                <button className="flex w-full place-items-center gap-2 text-left">
+                <button className="flex w-full place-items-center gap-2 text-left text-sm">
                     <Trash2Icon size={16} color="#030712" />
                     Delete
                 </button>

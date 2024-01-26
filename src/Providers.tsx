@@ -1,6 +1,7 @@
+import { LoginContext, UpdateThreadContext } from '@/context';
+import { ThreadUpdateInfo } from '@/types/Threads';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
-import { LoginContext } from './context';
 
 const ReactQueryDevtoolsProduction = React.lazy(() =>
     import('@tanstack/react-query-devtools').then((d) => ({
@@ -25,10 +26,13 @@ function DevProviders(props: { children: React.ReactNode }) {
 
 function ContextProviders(props: { children: React.ReactNode }) {
     const [loggedIn, setLoggedIn] = React.useState(false);
+    const [threadInfoToUpdate, setThreadInfoToUpdate] = React.useState({} as ThreadUpdateInfo);
 
     return (
         <LoginContext.Provider value={{ loggedIn, setLoggedIn }}>
-            {props.children}
+            <UpdateThreadContext.Provider value={{ threadInfoToUpdate, setThreadInfoToUpdate }}>
+                {props.children}
+            </UpdateThreadContext.Provider>
         </LoginContext.Provider>
     );
 }

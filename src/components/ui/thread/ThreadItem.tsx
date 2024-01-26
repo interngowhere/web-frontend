@@ -1,4 +1,4 @@
-import { ThreadItem, ThreadViewType } from '@/types/Threads';
+import { ThreadItem, ThreadUpdateInfo, ThreadViewType } from '@/types/Threads';
 import { PencilIcon, ThumbsUpIcon } from 'lucide-react';
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -9,11 +9,15 @@ import fetcher from '@/lib/fetcher';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 import { APIResponse } from '@/types/Api';
-import { LoginContext } from '@/context';
+import { LoginContext, UpdateThreadContext } from '@/context';
 import DeleteThreadAlertDialog from './DeleteThreadAlertDialog';
 import Cookies from 'js-cookie';
+
 export default function ThreadItem(props: { thread: ThreadItem; view: ThreadViewType }) {
     const navigate = useNavigate();
+
+    // useContext hook stores thread info for updating
+    const { setThreadInfoToUpdate } = useContext(UpdateThreadContext);
 
     const [didUserKudo, setDidUserKudo] = useState(props.thread.userKudoed || false);
     const [kudoCount, setKudoCount] = useState(props.thread.kudoCount || 0);
@@ -89,8 +93,20 @@ export default function ThreadItem(props: { thread: ThreadItem; view: ThreadView
                 <div className='w-full relative'>
                 {loggedIn && userid == props.thread.createdByID && 
                     <div className="absolute top-0 right-0 flex place-content-end gap-4">
-                        <button className="flex w-full place-items-center gap-2 text-left">
-                            <PencilIcon size={16} color="#030712" onClick={() => navigate("/threads/update")}/>
+                        <button
+                            className="flex w-full place-items-center gap-2 text-left text-sm" 
+                            onClick={() => {
+                                setThreadInfoToUpdate({
+                                    id: props.thread.id,
+                                    slug: props.thread.slug,
+                                    title: props.thread.title,
+                                    description: props.thread.description,
+                                    tags: props.thread.tags,
+                                } as ThreadUpdateInfo)
+                                navigate("/threads/update")
+                            }}
+                        >
+                            <PencilIcon size={16} color="#030712"/>
                             Edit
                         </button>
                         <DeleteThreadAlertDialog threadID={props.thread.id}/>

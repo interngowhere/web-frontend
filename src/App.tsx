@@ -1,11 +1,16 @@
+import CustomLoader from '@/components/primitives/CustomLoader';
+import { LoginContext } from '@/context';
+import fetcher from '@/lib/fetcher';
 import ErrorPage from '@/pages/ErrorPage';
 import HomePage from '@/pages/HomePage';
 import SearchPage from '@/pages/SearchPage';
+import SettingsPage from '@/pages/SettingsPage';
 import LoginPage from '@/pages/auth/LoginPage';
 import RegisterPage from '@/pages/auth/RegisterPage';
 import NewThreadPage from '@/pages/threads/NewThreadPage';
 import ThreadDetailPage from '@/pages/threads/ThreadDetailPage';
 import ThreadsPage from '@/pages/threads/ThreadsPage';
+import UpdateThreadPage from '@/pages/threads/UpdateThreadPage';
 import NewTopicPage from '@/pages/topics/NewTopicPage';
 import TopicDetailPage from '@/pages/topics/TopicDetailPage';
 import TopicsPage from '@/pages/topics/TopicsPage';
@@ -14,10 +19,6 @@ import { useContext, useEffect, useState } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { toast } from 'sonner';
-import CustomLoader from '@/components/primitives/CustomLoader';
-import { LoginContext } from './context';
-import fetcher from './lib/fetcher';
-import SettingsPage from './pages/SettingsPage';
 
 const router = createBrowserRouter([
     {
@@ -70,6 +71,14 @@ const router = createBrowserRouter([
         ),
     },
     {
+        path: '/threads/update',
+        element: (
+            <ProtectedRoutes>
+                <UpdateThreadPage />
+            </ProtectedRoutes>
+        ),
+    },
+    {
         path: '/settings/:section',
         element: (
             <ProtectedRoutes>
@@ -84,7 +93,6 @@ function ProtectedRoutes(props: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true);
 
     fetcher.defaults.headers.common['Authorization'] = 'Bearer ' + Cookies.get('token');
-    console.log(Cookies.get('token'));
     useEffect(() => {
         checkAuthentication();
     }, []);
@@ -119,7 +127,6 @@ function App() {
     const [loading, setLoading] = useState(true);
 
     fetcher.defaults.headers.common['Authorization'] = 'Bearer ' + Cookies.get('token');
-    console.log(Cookies.get('token'));
     useEffect(() => {
         checkAuthentication();
     }, []);
@@ -142,7 +149,7 @@ function App() {
     if (loading) {
         return (
             <div className="flex h-screen w-screen place-content-center place-items-center">
-                <CustomLoader loading={loading}/>
+                <CustomLoader loading={loading} />
             </div>
         );
     } else {
