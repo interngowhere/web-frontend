@@ -3,7 +3,7 @@ import { ThumbsUpIcon } from 'lucide-react';
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import formatTimestamp from '@/lib/timestamp';
-import TagList from './TagList';
+import TagList from '../tag/TagList';
 import { useMutation } from '@tanstack/react-query';
 import fetcher from '@/lib/fetcher';
 import { AxiosError } from 'axios';

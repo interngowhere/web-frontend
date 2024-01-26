@@ -6,13 +6,13 @@ import { CommentRequest, NewCommentDialogOriginType } from '@/types/Comments';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
+import { ReplyIcon } from 'lucide-react';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { Button } from '../primitives/Button';
-import Textarea from '../primitives/TextArea';
-import { ReplyIcon } from 'lucide-react';
+import { Button } from '../../primitives/Button';
+import Textarea from '../../primitives/TextArea';
 
 interface NewCommentDialogProps {
     parentID: number;
@@ -92,10 +92,7 @@ export default function NewCommentDialog(props: NewCommentDialogProps) {
                             Write your comment here
                         </div>
                     ) : (
-                        <Button
-                            variant="ghost"
-                            className="w-40 justify-start text-gray-600"
-                        >
+                        <Button variant="ghost" className="w-40 justify-start text-gray-600">
                             <ReplyIcon className="mr-2 h-6 w-6" />
                             Reply
                         </Button>

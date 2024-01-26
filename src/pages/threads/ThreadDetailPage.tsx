@@ -1,7 +1,7 @@
 import { LayoutWrapper } from '@/components/layout/wrappers';
 import SearchBar from '@/components/primitives/SearchBar';
-import CommentList from '@/components/ui/CommentList';
-import NewCommentDialog from '@/components/ui/NewCommentDialog';
+import CommentList from '@/components/ui/comment/CommentList';
+import NewCommentDialog from '@/components/ui/comment/NewCommentDialog';
 import ThreadItem from '@/components/ui/ThreadItem';
 import fetcher from '@/lib/fetcher';
 import { NewCommentDialogOriginType } from '@/types/Comments';

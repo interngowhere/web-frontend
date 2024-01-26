@@ -8,8 +8,8 @@ import { PlusIcon } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
-import { Button } from '../primitives/Button';
-import Input from '../primitives/Input';
+import { Button } from '../../primitives/Button';
+import Input from '../../primitives/Input';
 
 export default function NewTagDialog() {
     const [tagName, setTagName] = useState<string>('');
