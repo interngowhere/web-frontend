@@ -146,10 +146,10 @@ export default function ThreadItem(props: { thread: ThreadItem; view: ThreadView
                         </div>
                     )}
                     <div className='grid grid-cols-3 gap-4 pt-2'>
-                        <div className="flex gap-2 col-span-2">
+                        <div className="flex gap-2 col-span-3 sm:col-span-2">
                             <TagList thread={props.thread} />
                         </div>
-                        <div className='text-sm text-gray-600 text-right align-middle'>
+                        <div className='text-sm text-gray-600 text-right align-middle col-span-3 sm:col-span-1'>
                             <span>Posted by <b>{props.thread.createdByUsername}</b> at {createdAtDate}</span>
                         </div>
                     </div>

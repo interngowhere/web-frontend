@@ -6,16 +6,15 @@ export default function TagList(props: { thread: ThreadItem }) {
 
     if (props.thread.tags) {
         return props.thread.tags.map((tag, index) => (
-            <span
+            <button
                 className="cursor-pointer rounded-md bg-gray-200 px-2 py-1 text-xs hover:bg-gray-300"
                 key={index}
                 onClick={() => {
-                    navigate(`/threads?tag=${tag.id}`)
-                    // navigate(0)
+                    navigate(`/threads?tag=${tag.id}&tagname=${tag.tagName}`)
                 }}
             >
                 {tag.tagName}
-            </span>
+            </button>
         ));
     } else {
         return null;
