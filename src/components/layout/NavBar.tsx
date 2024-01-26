@@ -47,24 +47,24 @@ export default function NavBar() {
                             <DropdownMenuLabel>My Account</DropdownMenuLabel>
                             <DropdownMenuSeparator />
                             <DropdownMenuGroup>
-                                <DropdownMenuItem>
+                                <DropdownMenuItem disabled>
                                     <button
                                         className="flex w-full place-items-center gap-2 text-left"
                                         onClick={() => {
                                             navigate('/settings/account');
                                         }}
                                     >
-                                        Manage Account
+                                       {`Manage Account (yet to implement)`}
                                     </button>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>
+                                <DropdownMenuItem disabled>
                                     <button
                                         className="flex w-full place-items-center gap-2 text-left"
                                         onClick={() => {
                                             navigate('/settings/password');
                                         }}
                                     >
-                                        Update Password
+                                        {`Update Password (yet to implement)`}
                                     </button>
                                 </DropdownMenuItem>
                             </DropdownMenuGroup>
