@@ -1,13 +1,14 @@
 import fetcher from '@/lib/fetcher';
 import { CommentResponse, CommentItem } from '@/types/Comments';
 import formatTimestamp from '@/lib/timestamp';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { ThumbsUpIcon, ReplyIcon } from 'lucide-react';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Button } from '../primitives/Button';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
+import { APIResponse } from '@/types/Api';
 
 export default function CommentList(props: { threadId: string | undefined }) {
     const { isPending, error, data, isFetching } = useQuery({
@@ -43,10 +44,48 @@ function CommentItem(props: { comment: CommentItem }) {
     const navigate = useNavigate();
     const [didUserKudo, setDidUserKudo] = useState(props.comment.userKudoed || false);
     const [kudoCount, setKudoCount] = useState(props.comment.kudoCount || 0);
+    
+    const { threadId } = useParams();
 
     // Format createdAt datetime
     const createdAtDate = formatTimestamp(props.comment.createdAt)
-    console.log(props.comment)
+    
+    const addKudo = useMutation({
+        mutationFn: (commentID: string) => {
+            return fetcher.post(`/threads/${threadId}/comments/${commentID}/kudo`);
+        },
+        onError: (error: AxiosError) => {
+            if (!error.response) {
+                toast.error('Unable to connect to server. Please try again later.');
+                return;
+            }
+            const res = error.response.data as APIResponse;
+            toast.error(`Something unexpected happened: ${res.message}`);
+
+            // rollback optimistic update
+            setDidUserKudo(false)
+            setKudoCount(kudoCount - 1);
+        }
+    });
+
+    const removeKudo = useMutation({
+        mutationFn: (commentID: string) => {
+            return fetcher.delete(`/threads/${threadId}/comments/${commentID}/kudo`);
+        },
+        onError: (error: AxiosError) => {
+            if (!error.response) {
+                toast.error('Unable to connect to server. Please try again later.');
+                return;
+            }
+            const res = error.response.data as APIResponse;
+            toast.error(`Something unexpected happened: ${res.message}`);
+
+            // rollback optimistic update
+            setDidUserKudo(true)
+            setKudoCount(kudoCount + 1);
+        }
+    });
+    
     return (
         <div className="flex flex-col border-b last:border-0 gap-4">
             <div className='flex gap-2 place-items-center'>
@@ -65,9 +104,11 @@ function CommentItem(props: { comment: CommentItem }) {
                             if (didUserKudo) {
                                 setDidUserKudo(false);
                                 setKudoCount(kudoCount - 1);
+                                removeKudo.mutate(props.comment.id as unknown as string);
                             } else {
                                 setDidUserKudo(true);
                                 setKudoCount(kudoCount + 1);
+                                addKudo.mutate(props.comment.id as unknown as string);
                             }
                         }}
                     />

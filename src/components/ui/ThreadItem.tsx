@@ -4,6 +4,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import formatTimestamp from '@/lib/timestamp';
 import TagList from './TagList';
+import { useMutation } from '@tanstack/react-query';
+import fetcher from '@/lib/fetcher';
+import { AxiosError } from 'axios';
+import { toast } from 'sonner';
+import { APIResponse } from '@/types/Api';
 
 export default function ThreadItem(props: { thread: ThreadItem; view: ThreadViewType }) {
     const navigate = useNavigate();
@@ -12,6 +17,42 @@ export default function ThreadItem(props: { thread: ThreadItem; view: ThreadView
 
     // Format createdAt datetime
     const createdAtDate = formatTimestamp(props.thread.createdAt)
+
+    const addKudo = useMutation({
+        mutationFn: (threadID: string) => {
+            return fetcher.post(`/threads/${threadID}/kudo`);
+        },
+        onError: (error: AxiosError) => {
+            if (!error.response) {
+                toast.error('Unable to connect to server. Please try again later.');
+                return;
+            }
+            const res = error.response.data as APIResponse;
+            toast.error(`Something unexpected happened: ${res.message}`);
+
+            // rollback optimistic update
+            setDidUserKudo(false)
+            setKudoCount(kudoCount - 1);
+        }
+    });
+
+    const removeKudo = useMutation({
+        mutationFn: (threadID: string) => {
+            return fetcher.delete(`/threads/${threadID}/kudo`);
+        },
+        onError: (error: AxiosError) => {
+            if (!error.response) {
+                toast.error('Unable to connect to server. Please try again later.');
+                return;
+            }
+            const res = error.response.data as APIResponse;
+            toast.error(`Something unexpected happened: ${res.message}`);
+
+            // rollback optimistic update
+            setDidUserKudo(true)
+            setKudoCount(kudoCount + 1);
+        }
+    });
 
     return (
         <div className={`flex flex-col border-b ${props.view == ThreadViewType.Detail ? "pb-4" : "py-4"} last:border-0 border-gray-300`}>
@@ -26,9 +67,11 @@ export default function ThreadItem(props: { thread: ThreadItem; view: ThreadView
                             if (didUserKudo) {
                                 setDidUserKudo(false);
                                 setKudoCount(kudoCount - 1);
+                                removeKudo.mutate(props.thread.id as unknown as string);
                             } else {
                                 setDidUserKudo(true);
                                 setKudoCount(kudoCount + 1);
+                                addKudo.mutate(props.thread.id as unknown as string);
                             }
                         }}
                     />
