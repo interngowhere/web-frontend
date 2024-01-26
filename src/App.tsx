@@ -14,7 +14,7 @@ import { useContext, useEffect, useState } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { toast } from 'sonner';
-
+import CustomLoader from '@/components/primitives/CustomLoader';
 import { LoginContext } from './context';
 import fetcher from './lib/fetcher';
 import SettingsPage from './pages/SettingsPage';
@@ -84,7 +84,7 @@ function ProtectedRoutes(props: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true);
 
     fetcher.defaults.headers.common['Authorization'] = 'Bearer ' + Cookies.get('token');
-
+    console.log(Cookies.get('token'));
     useEffect(() => {
         checkAuthentication();
     }, []);
@@ -115,7 +115,39 @@ function ProtectedRoutes(props: { children: React.ReactNode }) {
 }
 
 function App() {
-    return <RouterProvider router={router} />;
+    const { setLoggedIn } = useContext(LoginContext);
+    const [loading, setLoading] = useState(true);
+
+    fetcher.defaults.headers.common['Authorization'] = 'Bearer ' + Cookies.get('token');
+    console.log(Cookies.get('token'));
+    useEffect(() => {
+        checkAuthentication();
+    }, []);
+
+    const checkAuthentication = async () => {
+        try {
+            const response = await fetcher.post('/ping');
+            if (response.status === 200) {
+                setLoggedIn(true);
+            } else {
+                setLoggedIn(false);
+            }
+        } catch (error) {
+            setLoggedIn(false);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return (
+            <div className="flex h-screen w-screen place-content-center place-items-center">
+                <CustomLoader loading={loading}/>
+            </div>
+        );
+    } else {
+        return <RouterProvider router={router} />;
+    }
 }
 
 export default App;
