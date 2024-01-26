@@ -1,11 +1,10 @@
 import { Dialog, DialogContent, DialogTrigger } from '@/components/primitives/Dialog';
 import fetcher from '@/lib/fetcher';
 import { APIResponse } from '@/types/Api';
-import { CommentRequest } from '@/types/Comments';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError, AxiosResponse } from 'axios';
 import { PencilIcon } from 'lucide-react';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -19,14 +18,14 @@ interface UpdateCommentDialogProps {
 }
 
 export default function UpdateCommentDialog(props: UpdateCommentDialogProps) {
-    const [comment, setComment] = useState<string>('');
+    const [comment, setComment] = useState<string>(props.content);
     const [open, setOpen] = useState(false);
 
     const navigate = useNavigate();
 
     const mutation = useMutation({
-        mutationFn: (newComment: CommentRequest) => {
-            return fetcher.post(`/threads/${props.threadID}/comments`, newComment);
+        mutationFn: () => {
+            return fetcher.put(`/threads/${props.threadID}/comments/${props.commentID}`, { content: comment });
         },
         onError: (error: AxiosError) => {
             if (!error.response) {
@@ -38,11 +37,11 @@ export default function UpdateCommentDialog(props: UpdateCommentDialogProps) {
         },
         onSuccess: (data: AxiosResponse) => {
             setComment('');
-            if (data.status === 201) {
+            if (data.status === 200) {
                 setOpen(false);
 
                 // Show toast
-                toast.success(`Comment created successfully!`);
+                toast.success(`Comment update successfully!`);
 
                 // Refresh page
                 navigate(0);
@@ -52,14 +51,6 @@ export default function UpdateCommentDialog(props: UpdateCommentDialogProps) {
         },
     });
 
-    function onSubmit() {
-        return
-        // const requestBody = {
-        //     content: comment,
-        //     parentId: props.parentID,
-        // } as CommentRequest;
-        // mutation.mutate(requestBody);
-    }
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
@@ -74,6 +65,7 @@ export default function UpdateCommentDialog(props: UpdateCommentDialogProps) {
                     <Textarea
                         placeholder="Write your comment here"
                         className="h-[calc(20vh)] text-sm"
+                        value={comment}
                         onChange={(e) => {
                             setComment(e.target.value);
                         }}
@@ -84,9 +76,9 @@ export default function UpdateCommentDialog(props: UpdateCommentDialogProps) {
                     className="ml-auto w-full max-w-28"
                     variant="primary"
                     disabled={comment.length == 0}
-                    onClick={() => onSubmit()}
+                    onClick={() => mutation.mutate()}
                 >
-                    Add
+                    Update
                 </Button>
             </DialogContent>
         </Dialog>

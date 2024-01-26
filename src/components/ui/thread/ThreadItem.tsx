@@ -1,5 +1,5 @@
 import { ThreadItem, ThreadViewType } from '@/types/Threads';
-import { ThumbsUpIcon } from 'lucide-react';
+import { PencilIcon, ThumbsUpIcon } from 'lucide-react';
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import formatTimestamp from '@/lib/timestamp';
@@ -43,7 +43,7 @@ export default function ThreadItem(props: { thread: ThreadItem; view: ThreadView
             setKudoCount(kudoCount - 1);
         }
     });
-
+    
     // remove kudo mutation method
     const removeKudo = useMutation({
         mutationFn: (threadID: string) => {
@@ -89,7 +89,10 @@ export default function ThreadItem(props: { thread: ThreadItem; view: ThreadView
                 <div className='w-full relative'>
                 {loggedIn && userid == props.thread.createdByID && 
                     <div className="absolute top-0 right-0 flex place-content-end gap-4">
-                        {/* <DeleteThreadAlertDialog /> */}
+                        <button className="flex w-full place-items-center gap-2 text-left">
+                            <PencilIcon size={16} color="#030712" onClick={() => navigate("/threads/update")}/>
+                            Edit
+                        </button>
                         <DeleteThreadAlertDialog threadID={props.thread.id}/>
                     </div>
                 }
