@@ -138,7 +138,7 @@ export default function ThreadItem(props: { thread: ThreadItem; view: ThreadView
                         </span>
                     )}
                     {props.view === ThreadViewType.Detail ? (
-                        <span className="">{props.thread.description}</span>
+                        <span className="text-wrap">{props.thread.description}</span>
                     ) : (
                         <div className='flex relative max-h-20'>
                             <span className="text-sm overflow-hidden">{props.thread.description}</span>

@@ -16,6 +16,8 @@ import { LogOutIcon, UserCircle2Icon } from 'lucide-react';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import MobileMenuBar from './MobileMenuBar';
+
 export default function NavBar() {
     const navigate = useNavigate();
     const { loggedIn, setLoggedIn } = useContext(LoginContext);
@@ -23,6 +25,7 @@ export default function NavBar() {
     return (
         <div className="fixed top-0 z-40 flex h-14 w-full place-content-center border-b-[1.5px] border-zinc-300 bg-white shadow">
             <div className="flex w-full max-w-[--max-width] place-content-between place-items-center px-4">
+                <MobileMenuBar />
                 <div className="flex w-full">
                     <div
                         className="flex cursor-pointer place-items-center gap-2"
@@ -36,6 +39,7 @@ export default function NavBar() {
                         />
                     </div>
                 </div>
+
                 {loggedIn ? (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -52,7 +56,7 @@ export default function NavBar() {
                                             navigate('/settings/account');
                                         }}
                                     >
-                                       {`Manage Account (yet to implement)`}
+                                        {`Manage Account (yet to implement)`}
                                     </button>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem disabled>

@@ -6,10 +6,14 @@ import fetcher from '@/lib/fetcher';
 import { TopicResponse, TopicViewType } from '@/types/Topics';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 export default function TopicDetailPage() {
     const { slug } = useParams();
-
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchParams] = useSearchParams();
+    const tagID = Number(searchParams.get('tag')) || 0;
     return (
         <LayoutWrapper>
             <div className="flex flex-col">
@@ -17,9 +21,9 @@ export default function TopicDetailPage() {
                 <div className="flex w-full flex-col gap-4 pt-4 md:pl-4">
                     <div className="flex flex-col place-content-between gap-4 xs:flex-row">
                         <span className="text-2xl font-semibold">Related threads</span>
-                        <SearchBar placeholder="Search threads" className="w-full xs:w-48" />
+                        <SearchBar placeholder="Search threads" className="w-full xs:w-48" searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
                     </div>
-                    <ThreadList topicSlug={slug} />
+                    <ThreadList topicSlug={slug!} searchQuery={searchQuery} tagID={tagID}/>
                 </div>
             </div>
         </LayoutWrapper>

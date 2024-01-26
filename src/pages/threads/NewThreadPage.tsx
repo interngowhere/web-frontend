@@ -253,7 +253,7 @@ function NewThreadForm() {
                             Add tags associated with your thread
                         </span>
                     </div>
-                    <div className="flex place-content-between">
+                    <div className="flex flex-col sm:flex-row place-content-between">
                         <TagInput
                             defaultTags={[]}
                             tags={tags}

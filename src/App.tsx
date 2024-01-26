@@ -2,7 +2,6 @@ import CustomLoader from '@/components/primitives/CustomLoader';
 import { LoginContext } from '@/context';
 import fetcher from '@/lib/fetcher';
 import ErrorPage from '@/pages/ErrorPage';
-import HomePage from '@/pages/HomePage';
 import SearchPage from '@/pages/SearchPage';
 import SettingsPage from '@/pages/SettingsPage';
 import LoginPage from '@/pages/auth/LoginPage';
