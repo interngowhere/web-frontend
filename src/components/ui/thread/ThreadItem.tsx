@@ -77,6 +77,11 @@ export default function ThreadItem(props: { thread: ThreadItem; view: ThreadView
                         color={didUserKudo ? '#FF5038' : '#000000'}
                         className="cursor-pointer duration-150 ease-in-out hover:text-brand-400"
                         onClick={() => {
+                            if (!loggedIn) {
+                                toast.error('Please login to continus');
+                                navigate("/login")
+                                return;
+                            }
                             if (didUserKudo) {
                                 setDidUserKudo(false);
                                 setKudoCount(kudoCount - 1);

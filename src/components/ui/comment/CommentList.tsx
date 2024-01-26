@@ -13,6 +13,7 @@ import DeleteCommentAlertDialog from './DeleteCommentAlertDialog';
 import { LoginContext } from '@/context';
 import Cookies from 'js-cookie';
 import UpdateCommentDialog from './UpdateCommentDialog';
+import { useNavigate } from 'react-router-dom';
 
 export default function CommentList(props: { threadId: string | undefined }) {
     const { isPending, error, data, isFetching } = useQuery({
@@ -45,6 +46,8 @@ export default function CommentList(props: { threadId: string | undefined }) {
 }
 
 function CommentItem(props: { comment: CommentItem }) {
+    const navigate = useNavigate();
+    
     const [didUserKudo, setDidUserKudo] = useState(props.comment.userKudoed || false);
     const [kudoCount, setKudoCount] = useState(props.comment.kudoCount || 0);
     
@@ -116,6 +119,12 @@ function CommentItem(props: { comment: CommentItem }) {
                         color={didUserKudo ? '#FF5038' : '#000000'}
                         className="cursor-pointer duration-150 ease-in-out hover:text-brand-400"
                         onClick={() => {
+                            if (!loggedIn) {
+                                toast.error('Please login to continus');
+                                navigate("/login")
+                                return;
+                            }
+
                             if (didUserKudo) {
                                 setDidUserKudo(false);
                                 setKudoCount(kudoCount - 1);
