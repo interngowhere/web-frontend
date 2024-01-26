@@ -1,7 +1,14 @@
 import { cn } from '@/lib/utils';
 import { SearchIcon } from 'lucide-react';
 
-function SearchBar(props: { placeholder: string; className?: string }) {
+interface SearchBarProps {
+    placeholder: string;
+    className?: string;
+    searchQuery: string;
+    setSearchQuery: React.Dispatch<React.SetStateAction<string>>
+}
+
+function SearchBar(props: SearchBarProps) {
     return (
         <form
             className={cn(
@@ -12,8 +19,10 @@ function SearchBar(props: { placeholder: string; className?: string }) {
             {/* #6b7280 is gray-500 in tailwind */}
             <SearchIcon size={20} className="ml-4 mr-2" color="#6b7280" />
             <input
+                value={props.searchQuery}
                 placeholder={props.placeholder}
                 className="flex w-full text-sm placeholder:text-gray-500 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                onChange={(e) => props.setSearchQuery(e.target.value)}
             />
         </form>
     );

@@ -5,7 +5,13 @@ import ThreadItem from './ThreadItem';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
-export default function ThreadList(props: { topicSlug: string | undefined }) {
+interface ThreadListProps {
+    topicSlug: string
+    searchQuery: string
+    tagID: number
+}
+
+export default function ThreadList(props: ThreadListProps) {
     const url = props.topicSlug ? `/topics/${props.topicSlug}/threads` : '/threads';
 
     const { isPending, error, data, isFetching } = useQuery({
@@ -27,9 +33,15 @@ export default function ThreadList(props: { topicSlug: string | undefined }) {
     if (isFetching) return 'Updating...';
 
     if (data) {
+        // filter by search param
+        let filteredData = (data as ThreadResponse).data.filter((thread) => thread.title.toLowerCase().includes((props.searchQuery || "").toLowerCase()))
+        // filter by tags
+        if (props.tagID != 0) {
+            filteredData = (data as ThreadResponse).data.filter((thread) => thread.tags.some(tag => tag.id == props.tagID))
+        }
         return (
             <div className="w-full rounded-md bg-white">
-                {(data as ThreadResponse).data.map((thread, index) => (
+                {filteredData.map((thread, index) => (
                     <ThreadItem thread={thread} view={ThreadViewType.List} key={index} />
                 ))}
             </div>
