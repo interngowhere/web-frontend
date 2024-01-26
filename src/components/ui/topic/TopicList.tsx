@@ -5,7 +5,7 @@ import TopicItem from './TopicItem';
 import { AxiosError } from 'axios';
 import { toast } from 'sonner';
 
-function TopicList() {
+function TopicList(props: { searchQuery: string }) {
     const { isPending, error, data } = useQuery({
         queryKey: ['topicList'],
         queryFn: () => fetcher.get('/topics').then((res) => res.data),
@@ -23,9 +23,12 @@ function TopicList() {
     }
 
     if (data) {
+        // filter by search param
+        const filteredData = (data as TopicResponse).data.filter((topic) => topic.title.toLowerCase().includes((props.searchQuery || "").toLowerCase()))
+
         return (
             <div className="w-full rounded-md bg-white">
-                {(data as TopicResponse).data.map((topic, index) => (
+                {filteredData.map((topic, index) => (
                     <TopicItem topic={topic} key={index} view={TopicViewType.List}/>
                 ))}
             </div>

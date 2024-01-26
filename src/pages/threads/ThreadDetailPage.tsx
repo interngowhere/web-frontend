@@ -1,5 +1,4 @@
 import { LayoutWrapper } from '@/components/layout/wrappers';
-import SearchBar from '@/components/primitives/SearchBar';
 import CommentList from '@/components/ui/comment/CommentList';
 import NewCommentDialog from '@/components/ui/comment/NewCommentDialog';
 import ThreadItem from '@/components/ui/thread/ThreadItem';
@@ -20,7 +19,6 @@ export default function ThreadDetailPage() {
                 <div className="flex w-full flex-col gap-4 py-4 md:px-4">
                     <div className="flex flex-col place-content-between gap-4 xs:flex-row">
                         <span className="text-2xl font-semibold">Comments</span>
-                        <SearchBar placeholder="Search comments" className="w-full xs:w-48" />
                     </div>
                     <div className="flex place-items-center gap-4">
                         <UserCircle2 size={32} className="text-gray-600" />
