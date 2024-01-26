@@ -7,7 +7,7 @@ export default function formatTimestamp(timestamp: string) {
         hour: "numeric",
         minute: "numeric",
         hour12: false,
-        timeZone: "America/Los_Angeles",
+        timeZone: "Asia/Singapore",
     };
     return new Intl.DateTimeFormat('en-US', options).format(date);
 }
