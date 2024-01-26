@@ -9,12 +9,14 @@ import ThreadsPage from '@/pages/threads/ThreadsPage';
 import NewTopicPage from '@/pages/topics/NewTopicPage';
 import TopicDetailPage from '@/pages/topics/TopicDetailPage';
 import TopicsPage from '@/pages/topics/TopicsPage';
-import { useContext } from 'react';
+import Cookies from 'js-cookie';
+import { useContext, useEffect, useState } from 'react';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 import { LoginContext } from './context';
+import fetcher from './lib/fetcher';
 import SettingsPage from './pages/SettingsPage';
 
 const router = createBrowserRouter([
@@ -78,11 +80,39 @@ const router = createBrowserRouter([
 ]);
 
 function ProtectedRoutes(props: { children: React.ReactNode }) {
-    const { loggedIn } = useContext(LoginContext);
-    if (!loggedIn) {
-        toast.error('You need to login first');
+    const { loggedIn, setLoggedIn } = useContext(LoginContext);
+    const [loading, setLoading] = useState(true);
+
+    console.log(Cookies.get('token'));
+    fetcher.defaults.headers.common['Authorization'] = 'Bearer ' + Cookies.get('token');
+
+    useEffect(() => {
+        checkAuthentication();
+    }, []);
+
+    const checkAuthentication = async () => {
+        try {
+            const response = await fetcher.post('/ping');
+            if (response.status === 200) {
+                setLoggedIn(true);
+            } else {
+                setLoggedIn(false);
+            }
+        } catch (error) {
+            setLoggedIn(false);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    if (loading) {
+        return <div>Loading...</div>;
+    } else if (loggedIn) {
+        return <>{props.children}</>;
+    } else {
+        toast.error('Please log in to continue');
+        return <Navigate to="/login" />;
     }
-    return loggedIn ? <>{props.children}</> : <Navigate to="/login" />;
 }
 
 function App() {

@@ -5,6 +5,12 @@ export enum TopicViewType {
     Detail,
 }
 
+interface TopicRequest {
+    title: string;
+    description: string;
+    shortDescription: string;
+}
+
 interface TopicResponse extends APIResponse {
     data: TopicItem[];
 }
@@ -19,4 +25,4 @@ interface TopicItem {
     createdAt: string;
 }
 
-export type { TopicResponse, TopicItem };
+export type { TopicRequest, TopicResponse, TopicItem };

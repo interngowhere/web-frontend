@@ -6,10 +6,12 @@ import Textarea from '@/components/primitives/TextArea';
 import fetcher from "@/lib/fetcher";
 import { APIResponse } from "@/types/Api";
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { AxiosResponse, AxiosError } from "axios";
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "sonner";
+import { TopicRequest } from '@/types/Topics';
 import { z } from 'zod';
 
 const formSchema = z.object({
@@ -47,31 +49,35 @@ function NewTopicForm() {
         resolver: zodResolver(formSchema),
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        // POST login credentials to server
-        fetcher
-            .post('/topics', values)
-            .then((response) => {
-                response = response as AxiosResponse;
-                if (response.status === 201) {
-                    // Show toast
-                    toast.success('Topic created successfully!');
+    const mutation = useMutation({
+        mutationFn: (newTopic: TopicRequest) => {
+            return fetcher.post("/topics", newTopic);
+        },
+        onError: (error: AxiosError) => {
+            if (!error.response) {
+                toast.error('Unable to connect to server. Please try again later.');
+                return;
+            }
+            const res = error.response.data as APIResponse
+            if (res.code === 409) {
+                toast.error(`Topic already exists`)
+                return;
+            }
+            toast.error(`Something unexpected happened: ${res.message}`);
+        },
+        onSuccess: (data: AxiosResponse) => {
+            if (data.status === 201) {
+                // Show toast
+                toast.success(`Topic created successfully!`);
+                navigate("/topics");
+            } else {
+                toast(`Something unexpected happened: ${data.data}`);
+            }
+        },
+    });
 
-                    // Redirect to topics page
-                    navigate(`/topics`);
-                } else {
-                    toast(`Something unexpected happened: ${response.data}`);
-                }
-            })
-            .catch((error) => {
-                error = error as AxiosError;
-                if (!error.response) {
-                    toast.error('Unable to connect to server. Please try again later.');
-                    return;
-                }
-                const err = error.response.data as APIResponse;
-                toast.error(`Something unexpected happened: ${err.message}`);
-            });
+    function onSubmit(values: z.infer<typeof formSchema>) {
+        mutation.mutate(values);
     }
 
     return (

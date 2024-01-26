@@ -1,5 +1,9 @@
 import { APIResponse } from "./Api";
 
+interface TagRequest {
+    tagName: string;
+}
+
 interface TagResponse extends APIResponse {
     data: TagItem[];
 }
@@ -9,4 +13,4 @@ interface TagItem {
     tagName: string;
 }
 
-export type { TagResponse, TagItem };
+export type { TagRequest, TagResponse, TagItem };

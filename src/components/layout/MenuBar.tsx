@@ -1,4 +1,4 @@
-import CreateNewAlertDialogue from '@/components/ui/CreateNewAlertDialogue';
+import NewContentDialog from '@/components/ui/NewContentDialog';
 import { HashIcon, HomeIcon, MessageCircleQuestionIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,7 +8,7 @@ export default function MenuBar() {
     const navigate = useNavigate();
     return (
         <div className="fixed hidden h-screen flex-col place-items-start gap-2 border-r-[1.5px] border-zinc-300 bg-white p-8 text-black md:flex">
-            <CreateNewAlertDialogue />
+            <NewContentDialog />
             <Button variant="ghost" className="w-40 justify-start" onClick={() => navigate('/')}>
                 <HomeIcon className="mr-2 h-6 w-6" /> Home
             </Button>
