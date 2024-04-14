@@ -1,5 +1,8 @@
 # web-frontend
 
+### Update Apr 2024
+Weblink is not working as I have taken down the backend services (previously running on AWS) to save cost. If you would like to check out the app, you may consider taking a look at the [backend](https://github.com/interngowhere/web-backend) repo and spinning up the containers from there.
+
 ### Project structure
 
 ### Commit messages
